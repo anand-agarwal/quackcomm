@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>quackcomm</name>
+  <version>0.0.1</version>
+  <description>Communication between virtual Duckiebots</description>
+
+  <maintainer email="anand.ag1112@gmail.com">Anand Agarwal</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+
+  <export/>
+</package>
