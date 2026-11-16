@@ -1,0 +1,9 @@
+stop_distance_m: 0.22
+clear_distance_m: 0.32
+timeout_s: 0.30
+median_window: 3
+# VL53 drivers commonly publish +inf when the beam does not return.
+inf_means_clear: true
+# The DB21J ente ToF driver publishes exactly 0.0 when there is no return.
+# Treated as "nothing in range". Set false for a driver that uses +inf instead.
+zero_means_no_return: true

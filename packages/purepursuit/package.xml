@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>purepursuit</name>
+  <version>1.0.0</version>
+  <description>
+    YOLO and ToF supervised Pure Pursuit lane following for a Duckiebot.
+    Runs beside dt-core and publishes one authorized lane-following command.
+  </description>
+  <maintainer email="anand.ag1112@gmail.com">Anand Agarwal</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>diagnostic_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>duckietown_msgs</depend>
+
+  <export/>
+</package>

@@ -1,0 +1,12 @@
+<launch>
+  <arg name="veh" default="$(optenv VEHICLE_NAME duckiebot)" />
+  <group ns="$(arg veh)">
+    <node pkg="duckiebot_pure_pursuit"
+          type="pure_pursuit_node.py"
+          name="pure_pursuit_lane_follower"
+          output="screen">
+      <param name="vehicle_name" value="$(arg veh)" />
+      <rosparam command="load" file="$(find duckiebot_pure_pursuit)/config/controller.yaml" />
+    </node>
+  </group>
+</launch>

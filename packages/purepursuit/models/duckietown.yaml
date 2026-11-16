@@ -1,0 +1,8 @@
+# Workstation training set. Images are not stored in this repository.
+path: datasets/duckietown
+train: images/train
+val: images/val
+names:
+  0: duckie
+  1: duckiebot
+  2: cone

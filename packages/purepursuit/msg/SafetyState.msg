@@ -1,0 +1,12 @@
+std_msgs/Header header
+string state
+string reason
+float32 authorized_v
+float32 authorized_omega
+float32 desired_v
+float32 desired_omega
+bool yolo_fresh
+bool tof_fresh
+bool control_fresh
+bool motion_allowed
+string fsm_state

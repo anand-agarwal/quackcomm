@@ -1,6 +1,6 @@
 # parameters
 ARG REPO_NAME="quackcomm"
-ARG DESCRIPTION="Multi Duckiebot Communication"
+ARG DESCRIPTION="YOLO and ToF supervised Pure Pursuit lane following"
 ARG MAINTAINER="Anand Agarwal (anand.ag1112@gmail.com)"
 # pick an icon from: https://fontawesome.com/v4.7.0/icons/
 ARG ICON="cube"
@@ -8,7 +8,7 @@ ARG ICON="cube"
 # ==================================================>
 # ==> Do not change the code below this line
 ARG ARCH
-ARG DISTRO=daffy
+ARG DISTRO=ente
 ARG DOCKER_REGISTRY=docker.io
 ARG BASE_IMAGE=dt-ros-commons
 ARG BASE_TAG=${DISTRO}-${ARCH}
@@ -59,6 +59,12 @@ ARG PIP_INDEX_URL="https://pypi.org/simple"
 ENV PIP_INDEX_URL=${PIP_INDEX_URL}
 COPY ./dependencies-py3.* "${REPO_PATH}/"
 RUN dt-pip3-install "${REPO_PATH}/dependencies-py3.*"
+
+# CPU runtime for the vendored YOLOv5n ONNX graph.
+# Python 3.8 aarch64 has an official wheel. Python 3.6 does not, and the
+# detector then stays fail-safe while the ToF stop still runs.
+RUN python3 -m pip install --no-cache-dir "onnxruntime==1.16.3" \
+    || echo "WARNING: onnxruntime was not installed for this Python"
 
 # copy the source code
 COPY ./packages "${REPO_PATH}/packages"

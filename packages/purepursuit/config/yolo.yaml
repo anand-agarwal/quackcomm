@@ -1,0 +1,18 @@
+# Duckietown YOLOv8n, 320 input, trained by training/train.py (see models/SOURCE.txt).
+# To go back to the vendored COCO YOLOv5n: model_path "" and class_names [] .
+model_path: duckietown_yolov8n_320.onnx
+# Must match the training order. Left empty, the names are read from the ONNX
+# metadata, then fall back to COCO.
+class_names: [duckie, duckiebot, cone]
+conf_threshold: 0.45
+iou_threshold: 0.45
+min_box_px: 8.0
+# Measured on myrobot2 (2026-11-16): ~305 ms per inference on the Nano CPU with
+# 2 onnxruntime threads. At 4 fps YOLO used ~157% CPU and starved dt-core's lane
+# pipeline. 2 fps keeps it near one core. Check yolo_inference_ms in
+# purepursuit/latency before raising this.
+max_fps: 2.0
+min_hits: 2
+immediate_confidence: 0.75
+# No training set had cone labels, so this model never emits "cone" yet.
+classes_of_interest: [duckie, duckiebot, cone]

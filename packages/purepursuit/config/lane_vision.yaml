@@ -1,0 +1,34 @@
+# lane_detector_node: our lane detection (replaces dt-core line_detector ->
+# ground_projection -> lane_filter for this demo).
+max_fps: 20.0
+# Centre of the yellow line to centre of the white line (Duckietown tile: ~0.23 m).
+lane_width_m: 0.23
+# Ground window used for fitting (metres ahead of the robot).
+x_min_m: 0.08
+x_max_m: 0.70
+max_points_per_color: 600
+# OpenCV HSV (H 0-180). Tune with the debug image:
+#   rqt_image_view /<veh>/purepursuit/lane_debug_image/compressed
+white_low: [0, 0, 150]
+white_high: [180, 70, 255]
+# Measured on myrobot2's mat (2026-11-16): lane yellow H 26-35, S 60-72, V 77-128;
+# duckies are orange, H 10-17, so H >= 22 keeps them out while S >= 45 keeps the line in.
+yellow_low: [22, 45, 60]
+yellow_high: [40, 255, 255]
+# Scale V thresholds with frame brightness. Off: dark mats pull it too low.
+auto_brightness: false
+# Debug image rate; it is only encoded while someone subscribes.
+debug_fps: 5.0
+# Ground homography. The Duckietown extrinsic file is read first; these values
+# are the myrobot2 calibration of 2026-09-30, used if that file is not mounted.
+# Input: undistorted camera-normalized coords ((u-cx)/fx, (v-cy)/fy); output: x forward, y left (m).
+extrinsic_file: /data/config/calibrations/camera_extrinsic/myrobot2.yaml
+homography: [0.018885912169966473, 0.11060945850334832, 0.4243052547946663,
+             -0.347564228292063, -0.03899840454618963, 0.00863919347803072,
+             0.049071201545771964, 3.155988817717057, 1.0]
+# Intrinsics until camera_info arrives (myrobot2, 640x480, plumb_bob).
+K: [326.049927752541, 0.0, 275.3636982404864, 0.0, 339.8614106918087, 230.12051504962272, 0.0, 0.0, 1.0]
+D: [-0.405873168602115, 0.24723420914482114, 0.0049496592668074576, 0.005268811004744025, -0.06338349055831163]
+# Lines are fit as circle arcs. Above this curvature (1/m) an estimate is
+# rejected; a Duckietown right turn's lane centre is ~5.5 (radius 0.18 m).
+max_curvature: 10.0

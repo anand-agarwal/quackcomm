@@ -1,0 +1,43 @@
+<launch>
+  <arg name="veh" default="$(optenv VEHICLE_NAME duckiebot)" />
+  <arg name="robot_type" default="$(optenv ROBOT_TYPE duckiebot)" />
+  <arg name="robot_configuration" default="$(optenv ROBOT_CONFIGURATION DB21J)" />
+  <arg name="allow_motion" default="true" />
+  <arg name="pkg_name" default="purepursuit" />
+  <arg name="param_file_name" default="default" />
+
+  <group ns="$(arg veh)">
+    <node pkg="purepursuit" type="yolo_detector_node.py" name="yolo_detector_node" output="screen">
+      <param name="vehicle_name" value="$(arg veh)" />
+      <rosparam command="load" file="$(find purepursuit)/config/yolo.yaml" />
+    </node>
+
+    <node pkg="purepursuit" type="tof_obstacle_node.py" name="tof_obstacle_node" output="screen">
+      <param name="vehicle_name" value="$(arg veh)" />
+      <rosparam command="load" file="$(find purepursuit)/config/tof.yaml" />
+    </node>
+
+    <node pkg="purepursuit" type="object_localization_node.py" name="object_localization_node" output="screen">
+      <param name="vehicle_name" value="$(arg veh)" />
+      <rosparam command="load" file="$(find purepursuit)/config/localization.yaml" />
+      <param name="extrinsic_file" value="/data/config/calibrations/camera_extrinsic/$(arg veh).yaml" />
+    </node>
+
+    <node pkg="purepursuit" type="lane_detector_node.py" name="lane_detector_node" output="screen">
+      <param name="vehicle_name" value="$(arg veh)" />
+      <rosparam command="load" file="$(find purepursuit)/config/lane_vision.yaml" />
+      <param name="extrinsic_file" value="/data/config/calibrations/camera_extrinsic/$(arg veh).yaml" />
+    </node>
+
+    <node pkg="purepursuit" type="purepursuit_controller_node.py" name="purepursuit_controller_node" output="screen">
+      <param name="vehicle_name" value="$(arg veh)" />
+      <rosparam command="load" file="$(find purepursuit)/config/controller.yaml" />
+    </node>
+
+    <node pkg="purepursuit" type="safety_supervisor_node.py" name="safety_supervisor_node" output="screen">
+      <param name="vehicle_name" value="$(arg veh)" />
+      <rosparam command="load" file="$(find purepursuit)/config/safety.yaml" />
+      <param name="allow_motion" value="$(arg allow_motion)" />
+    </node>
+  </group>
+</launch>
