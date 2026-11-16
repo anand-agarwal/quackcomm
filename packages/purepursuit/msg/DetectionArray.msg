@@ -1,0 +1,9 @@
+std_msgs/Header header
+Detection[] detections
+float32 decode_latency_ms
+float32 inference_latency_ms
+bool model_loaded
+string backend
+bool camera_ok
+uint32 image_width
+uint32 image_height

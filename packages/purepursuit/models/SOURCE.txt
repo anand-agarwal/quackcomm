@@ -1,0 +1,20 @@
+file: duckietown_yolov8n_320.onnx   (active model, config/yolo.yaml)
+source: training/train.py settings, trained on Colab (training/colab_train.ipynb), ultralytics 8.3.40
+data: 4 Roboflow YOLOv8 exports merged by training/merge_datasets.py (CC BY 4.0):
+      anand-agarwal-erlm0/duckietown-object-detection-7dt2f v1, risproject/object-detection-xc3rz v2,
+      haoran-k1dw8/duckiebtown_db21j v5, duckies/duckietown-hosv3 v6
+      2725 train / 694 val images
+sha256: 8c9b1a2c4eddb9e1603ee04123a867b6921d409186d32acbfcb30c138897283d
+task: detection, 3 classes [duckie, duckiebot, cone]; no cone labels in the data yet
+input: images float32 NCHW 1x3x320x320, RGB 0-1, letterboxed
+output: output0 float32 1x7x2100 (cx, cy, w, h, 3 class scores; no objectness)
+opset: 18, IR version lowered 10 -> 9 so onnxruntime 1.16.3 on the robot loads it (outputs identical)
+
+file: yolov5n.onnx   (fallback: set model_path "" and class_names [])
+source: https://github.com/ultralytics/yolov5/releases/download/v7.0/yolov5n.onnx
+sha256: 04f0e55c26f58d17145b36045780fe1250d5bd2187543e11568e5141d05b3262
+task: COCO detection, 80 classes
+input: images float16 NCHW 1x3x640x640
+output: output0 float16 1x25200x85
+opset: 17
+notes: FP16 weights. Duckie and Duckiebot are not COCO classes.

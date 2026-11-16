@@ -1,0 +1,66 @@
+# One Duckietown lane, yellow centre to white centre, is about 0.23 m.
+# The older image-space node used 0.585 m as a full-tile pixel scale.
+lane_width_m: 0.23
+lookahead_m: 0.42
+# wheel duty ~= 1.86 * v on this DB21J (gain 1.6, k 27, r 0.0318).
+# Below ~0.08 m/s the motors do not overcome static friction.
+max_speed: 0.18
+min_speed: 0.10
+max_omega: 1.8
+max_lateral_accel: 0.18
+curvature_slowdown_gain: 0.65
+min_confidence: 0.25
+pose_timeout_s: 0.40
+x_min_m: 0.05
+x_max_m: 1.20
+# dt-core LanePose: positive d is left of centre, positive phi is yawed left.
+lane_pose_d_sign: 1.0
+lane_pose_phi_sign: 1.0
+# vision (our lane_detector_node), lane_pose (dt-core histogram filter) or
+# ground_segments. The others are fallbacks, used only while they publish.
+primary_source: vision
+# Vision source: a lane estimate older than this stops the car.
+vision_timeout_s: 0.5
+vision_min_confidence: 0.2
+# Lookahead grows with speed: base + gain * v, clipped. At 0.15 m/s ~0.29 m,
+# which steers ~2x harder than the old fixed 0.42 m and carries the road curvature.
+lookahead_base_m: 0.20
+lookahead_gain_s: 0.6
+lookahead_min_m: 0.18
+lookahead_max_m: 0.35
+# Kalman tracker std devs: process (per sqrt s) and measurement, for [d m, phi rad, curvature 1/m].
+# Curvature process noise 2.0 lets the estimate step into a turn within ~2 frames
+# (0.5 took ~1.2 s and the robot ran wide).
+tracker_process_noise: [0.002, 0.05, 2.0]
+tracker_measurement_noise: [0.01, 0.05, 0.6]
+tracker_reset_s: 1.0
+# Reject a segment-based target farther to the side than this.
+max_target_lateral_m: 0.20
+# Tracker curvature limit (1/m); right turns need ~5.5.
+max_curvature: 10.0
+# In tight turns the lookahead shrinks to turn_lookahead_radius_factor / |curvature|
+# (at least turn_lookahead_min_m), keeping the target on the quarter-circle turn.
+turn_lookahead_radius_factor: 1.2
+turn_lookahead_min_m: 0.12
+
+# Lane loss (pp_core/recovery.py). ControllerStatus.status shows the state.
+# coast: lane lost on a straight, keep following the tracker's prediction this long.
+coast_s: 0.6
+# turn_memory: lost inside a turn (|curvature| >= turn_curvature), keep turning
+# until turn_angle_rad (a quarter turn) is done, at most max_turn_memory_s.
+turn_curvature: 1.5
+turn_angle_rad: 1.5708
+max_turn_memory_s: 3.0
+# Speed factor while coasting / in turn memory (curvature is kept).
+coast_speed_scale: 1.0
+# search: then rotate toward the side the lane was last seen, sweeping back and
+# forth (+-search_angle_rad, widening up to search_max_angle_rad) until a lane
+# estimate returns; stop after search_timeout_s. search_omega 2.0 rad/s turns
+# each wheel at ~0.1 m/s, just above the ~0.08 m/s the motors need to move.
+# search_forward_speed > 0 creeps forward while sweeping (0 = rotate in place).
+search_enabled: true
+search_omega: 2.0
+search_forward_speed: 0.0
+search_angle_rad: 0.6
+search_max_angle_rad: 1.5
+search_timeout_s: 6.0

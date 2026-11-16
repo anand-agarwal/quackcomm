@@ -1,0 +1,27 @@
+# Nine row-major values map pixels to ground metres (x forward, y left).
+# Leave this empty to use the pinhole model below.
+homography: []
+# Approximate DB21 camera mount. Replace these after a ground-plane calibration.
+# camera_info replaces fx, fy, cx, and cy when it is available.
+fx: 330.0
+fy: 330.0
+cx: 320.0
+cy: 240.0
+camera_height_m: 0.10
+camera_pitch_deg: 15.0
+camera_x_m: 0.0
+max_projection_distance_m: 2.5
+corridor_x_min_m: 0.05
+corridor_x_max_m: 1.20
+corridor_half_width_m: 0.12
+uncertain_center_fraction: 0.35
+tof_gate_m: 0.08
+# Calibrated camera model (preferred). The Duckietown extrinsic file is read
+# first; these are myrobot2's values (2026-09-30), used if it is not mounted.
+# Same convention as lane_vision.yaml: undistorted camera-normalized -> ground.
+extrinsic_file: /data/config/calibrations/camera_extrinsic/myrobot2.yaml
+ground_homography: [0.018885912169966473, 0.11060945850334832, 0.4243052547946663,
+                    -0.347564228292063, -0.03899840454618963, 0.00863919347803072,
+                    0.049071201545771964, 3.155988817717057, 1.0]
+K: [326.049927752541, 0.0, 275.3636982404864, 0.0, 339.8614106918087, 230.12051504962272, 0.0, 0.0, 1.0]
+D: [-0.405873168602115, 0.24723420914482114, 0.0049496592668074576, 0.005268811004744025, -0.06338349055831163]

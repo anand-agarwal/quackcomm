@@ -1,0 +1,46 @@
+max_speed: 0.18
+stop_distance_m: 0.22
+clear_distance_m: 0.32
+brake_distance_m: 0.70
+brake_decel_m_s2: 0.40
+uncertain_speed_m_s: 0.04
+# 1.0 while the COCO model is in use: it cannot see duckies or duckiebots,
+# so slowing for a stale YOLO gave no protection and stalled the motors.
+# Set back to 0.5-0.7 once the Duckietown model runs fast enough to be fresh.
+yolo_unavailable_speed_scale: 1.0
+tof_unavailable_speed_scale: 0.4
+tof_timeout_s: 0.30
+# At 2 fps with ~305 ms inference a detection is up to ~0.8 s old when the next
+# one lands, so allow 1.2 s before YOLO counts as unavailable.
+yolo_timeout_s: 1.20
+command_timeout_s: 0.40
+clear_hold_s: 0.45
+startup_hold_s: 2.0
+require_fsm: true
+allowed_fsm_states:
+  - LANE_FOLLOWING
+disable_stock_lane_controller: true
+# On by default; the launch file's allow_motion arg (ALLOW_MOTION env) overrides this.
+# Stop a running robot: rosparam set ~allow_motion false, or keyboard_control S.
+allow_motion: true
+# dt-core nodes switched off through their ~switch service (std_srvs/SetBool)
+# after every FSM change, so only this demo publishes lane_controller_node/car_cmd.
+# With primary_source: vision our lane_detector_node replaces dt-core's lane
+# perception, so it is switched off too to free the Nano's CPU. fsm_node still
+# runs (keyboard A/S) and switches these on at each FSM change; this loop turns
+# them off again within about one period. Remove the three perception nodes to
+# run dt-core's lane_pose as the source again.
+stock_nodes_to_disable:
+  - lane_controller_node
+  - line_detector_node
+  - ground_projection_node
+  - lane_filter_node
+stock_switch_period_s: 1.0
+# dt-core perception nodes switched ON through ~switch when lane_filter_node/lane_pose
+# has been silent for lane_pose_stale_s. On ente, lane_filter_node can start off and
+# fsm_node does not always switch it on, which stalls Pure Pursuit ("lane unavailable").
+# Empty while vision is the source (it would fight the disable list above).
+# With primary_source: lane_pose, list lane_filter_node, line_detector_node and
+# ground_projection_node here and keep only lane_controller_node above.
+stock_nodes_to_enable: []
+lane_pose_stale_s: 1.0

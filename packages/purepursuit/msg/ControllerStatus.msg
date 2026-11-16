@@ -1,0 +1,9 @@
+std_msgs/Header header
+float32 confidence
+float32 curvature
+float32 lookahead_x
+float32 lookahead_y
+float32 desired_v
+float32 desired_omega
+string source
+string status

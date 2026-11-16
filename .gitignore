@@ -7,3 +7,11 @@ html/*
 
 # otherwise CI thinks index not clean
 *.resolved
+
+# training outputs
+runs/
+out/
+datasets/
+frames/
+*.bag
+*.pt

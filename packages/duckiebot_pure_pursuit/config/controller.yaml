@@ -1,0 +1,38 @@
+# IMPORTANT: replace [] with the 8 values produced by calibrate_bev.py.
+# Click order: far-left, far-right, near-right, near-left.
+src_points: []
+
+bev_width_px: 320
+bev_height_px: 400
+bev_width_m: 1.0
+bev_length_m: 1.5
+# The near edge of the calibrated rectangle is this far ahead of the axle.
+near_distance_m: 0.15
+
+# Duckietown lane width; measure your map/tiles and adjust if needed.
+lane_width_m: 0.585
+
+white_hsv_lower: [0, 0, 160]
+white_hsv_upper: [179, 75, 255]
+
+forward_min_m: 0.22
+forward_max_m: 1.35
+scan_step_m: 0.025
+search_left_m: 0.08
+search_right_m: 0.90
+min_run_px: 2
+max_row_jump_m: 0.18
+min_valid_rows: 10
+min_confidence: 0.35
+
+lookahead_min_m: 0.32
+lookahead_max_m: 0.68
+lookahead_speed_gain: 0.75
+max_speed: 0.08
+min_speed: 0.055
+max_lateral_accel: 0.24
+max_omega: 2.0
+
+max_fps: 12.0
+image_timeout_s: 0.5
+publish_debug: true

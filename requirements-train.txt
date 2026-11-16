@@ -1,0 +1,6 @@
+# Workstation only. Do not install this file in the Duckiebot image.
+ultralytics==8.3.40
+onnx>=1.14
+onnxslim
+rosbags>=0.9
+pyyaml

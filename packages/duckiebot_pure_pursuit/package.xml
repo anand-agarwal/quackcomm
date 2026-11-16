@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>duckiebot_pure_pursuit</name>
+  <version>0.1.0</version>
+  <description>Lightweight metric Pure Pursuit lane follower for a Duckiebot.</description>
+  <maintainer email="maintainer@example.com">Duckiebot Developer</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>duckietown_msgs</depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+</package>
